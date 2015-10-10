@@ -9,7 +9,7 @@ using <%= generate_config.domain_model_namespace %>;
 namespace <%= generate_config.db_context_namespace %> {
 	
 	public class <%=  generate_config.db_context_name %>DbContext:DbContext{
-		public <%=  generate_config.db_context_name %>DbContex():base("name=<%= generate_config.db_context_name%>Entities"){
+		public <%=  generate_config.db_context_name %>DbContext():base("name=<%= generate_config.db_context_name%>Entities"){
 
 		}
 		protected override void OnModelCreating(DbModelBuilder modelBuilder) {
