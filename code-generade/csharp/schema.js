@@ -101,7 +101,7 @@ column=function(){
 			if(type=='Int16'||type=='Int32'||type=="Int64"||type=="Single"||type=='Double')pri.defaultValue= column.COLUMN_DEFAULT;
 			if(type=='Decimal')pri.defaultValue= format('{0}M',column.COLUMN_DEFAULT);
 			if(type=='Byte')pri.defaultValue= format('(Byte){0}',column.COLUMN_DEFAULT);
-			if(type=='SByte')pri.defaultValue= format('(SByte){0}',column.COLUMN_DEFAULT);
+			if(type=='SByte')pri.defaultValue= format('{0}',column.COLUMN_DEFAULT);
 
 		}
 	}
