@@ -22,7 +22,6 @@ namespace <%= generate_config.const_baserepository_namespace%>
         #region IRepository
         public virtual void Add(T entity) {
             _dbset.Add(entity);
-            // _dataContext.Entry(entity).State = EntityState.Added;
             _dataContext.SaveChanges();
         }
 
@@ -39,12 +38,7 @@ namespace <%= generate_config.const_baserepository_namespace%>
         }
 
         public virtual T Get(System.Linq.Expressions.Expression<Func<T, bool>> predicate) {
-            try {
-                return _dbset.FirstOrDefault(predicate);
-            }
-            catch (Exception e) {
-                return null;
-            }
+            return _dbset.FirstOrDefault(predicate);
         }
 
         public virtual int Count(System.Linq.Expressions.Expression<Func<T, bool>> predicate) {
