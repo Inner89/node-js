@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using <%= generate_config.i_repository_namespace %>;
 
-namespace EasyRong.Server.Repository
+namespace <%= generate_config.const_baserepository_namespace%>
 {
     public abstract class <%= generate_config.db_context_name%>BaseRepository<T> : IRepository<T>
         where T : class
