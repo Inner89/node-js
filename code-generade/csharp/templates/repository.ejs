@@ -1,0 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using <%= generate_config.domain_model_namespace %>;
+using <%= generate_config.i_repository_namespace %>;
+
+namespace <%= generate_config.repository_namespace%>{
+	
+	public class <%= table.getName()%>Repository:<%= generate_config.db_context_name%>BaseRepository<<%= table.getName() %>>,I<%= table.getName() %>Repository
+	{
+	}
+
+}

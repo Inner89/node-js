@@ -1,0 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using <%= generate_config.domain_model_namespace %>;
+
+namespace <%= generate_config.db_context_namespace %> {
+	
+	public class <%=  generate_config.db_context_name %>DbContext:DbContext{
+		public <%=  generate_config.db_context_name %>DbContex:base("name=<%= generate_config.db_context_name%>Entities"){
+
+		}
+		protected override void OnModelCreating(DbModelBuilder modelBuilder) {
+            modelBuilder.Conventions.Remove<System.Data.Entity.ModelConfiguration.Conventions.PluralizingTableNameConvention>();
+            base.OnModelCreating(modelBuilder);
+        }
+
+     <% for(var i=0;i<tables.length;i++){%>
+     	public DbSet<<%= tables[i].getName()%>> <%= tables[i].getName()%>{get;set;}
+	<% }%>
+
+	}
+
+}

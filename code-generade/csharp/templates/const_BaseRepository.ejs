@@ -1,0 +1,70 @@
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using <%= generate_config.i_repository_namespace %>;
+
+namespace EasyRong.Server.Repository
+{
+    public abstract class <%= generate_config.db_context_name%>BaseRepository<T> : IRepository<T>
+        where T : class
+    {
+        public <%= generate_config.db_context_name%>BaseRepository() {
+            _dataContext = new <%= generate_config.db_context_name%>DbContext();
+            _dbset = _dataContext.Set<T>();
+        }
+
+        protected readonly DbContext _dataContext;
+        protected DbSet<T> _dbset;
+
+        #region IRepository
+        public virtual void Add(T entity) {
+            _dbset.Add(entity);
+            // _dataContext.Entry(entity).State = EntityState.Added;
+            _dataContext.SaveChanges();
+        }
+
+        public virtual void Update(T entity) {
+            _dbset.Attach(entity);
+            _dataContext.Entry(entity).State = EntityState.Modified;
+            _dataContext.SaveChanges();
+        }
+
+        public virtual void Delete(T entity) {
+            _dbset.Attach(entity);
+            _dataContext.Entry(entity).State = EntityState.Deleted;
+            _dataContext.SaveChanges();
+        }
+
+        public virtual T Get(System.Linq.Expressions.Expression<Func<T, bool>> predicate) {
+            try {
+                return _dbset.FirstOrDefault(predicate);
+            }
+            catch (Exception e) {
+                return null;
+            }
+        }
+
+        public virtual int Count(System.Linq.Expressions.Expression<Func<T, bool>> predicate) {
+            return _dbset.Count(predicate);
+        }
+
+        public virtual IQueryable<T> Fetch(System.Linq.Expressions.Expression<Func<T, bool>> predicate) {
+            return _dbset.Where(predicate);
+        }
+
+        public virtual IQueryable<T> Fetch(System.Linq.Expressions.Expression<Func<T, bool>> predicate, Action<Orderable<T>> order) {
+            var orderable = new Orderable<T>(Fetch(predicate));
+            order(orderable);
+            return orderable.Queryable;
+        }
+
+        public virtual IQueryable<T> Fetch(System.Linq.Expressions.Expression<Func<T, bool>> predicate, Action<Orderable<T>> order, int skip, int count) {
+            return Fetch(predicate, order).Skip(skip).Take(count);
+        }
+        #endregion
+
+    }
+}

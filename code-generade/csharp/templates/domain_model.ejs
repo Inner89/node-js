@@ -1,0 +1,33 @@
+using System;
+using System.Text;
+using System.ComponentModel;
+using System.Runtime.Serialization;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace <%= generate_config.domain_model_namespace %> {
+    /// <summary>
+    /// <%- table.getComment() %>
+    /// </summary>
+	<%- table.getAttributes().join('\n\t') %>
+	public partial class <%- table.getName()%> {
+
+		public <%= table.getName()%>(){
+		<% for(var i=0;i<table.getDefaults().length;i++){%>
+		<% var column=table.getDefaults()[i];%><%= column.getName()%>=<%- column.getDefault()%>;<% }%>
+		}
+	<% for(var i=0;i<table.getColumns().length;i++){%>
+	<% var column=table.getColumns()[i];%>
+		private <%= column.getType()%> _<%= column.getOrginName()%>;
+	    /// <summary>
+	    /// <%- column.getComment() %>
+	    ///<para><%-column.getRemark()%></para>
+	    /// </summary>
+		<%- column.getAttributes().join('\n\t\t') %>
+		public <%= column.getType()%> <%= column.getName()%>{
+			get{return _<%= column.getOrginName()%>;}
+			set{ _<%= column.getOrginName()%>=value;}
+		}
+	<% }%>
+	}
+}
